@@ -27,7 +27,7 @@ function createPig(id: number): Pig {
     id,
     x: 5 + Math.random() * 90,
     y: 15 + Math.random() * 75,
-    size: 80 + Math.random() * 50,
+    size: 120 + Math.random() * 50,
     dx: Math.cos(angle) * speed,
     dy: Math.sin(angle) * speed,
     image: pigs[Math.floor(Math.random() * pigs.length)],
