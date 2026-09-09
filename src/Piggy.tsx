@@ -102,8 +102,8 @@ export default function Piggy() {
       scalar: 0.5,
       ticks: 30,
       origin: {
-        x: pig.x / 100,
-        y: pig.y / 100,
+        x: pig.x / 100 + pig.size / window.innerWidth / 2,
+        y: pig.y / 100 + pig.size / window.innerHeight / 2,
       },
       colors: [
         "#ff69b4",
