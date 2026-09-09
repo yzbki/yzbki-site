@@ -98,26 +98,23 @@ function Home() {
         </div>
 
         <div className="hero-profile">
+          <h1>Mustafa Al-Youzbaki</h1>
+
           <img
             src="/portrait.jpg"
             alt="Mustafa Al-Youzbaki"
             className="portrait"
           />
 
-          <div>
-            <h1>
-              Mustafa Al-Youzbaki
-              <br />
-              <em>I build software.</em>
-            </h1>
+          <h1>
+            <em>I build software.</em>
+          </h1>
 
-            <p className="hero-copy">
-              Computing graduate building practical software
-              across web, mobile, and AI.
-            </p>
-          </div>
+          <p className="hero-copy">
+            Computing graduate building practical software across web,
+            mobile, and AI.
+          </p>
         </div>
-
         <div className="hero-actions">
           <Link
             to="/projects"
