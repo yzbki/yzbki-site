@@ -876,5 +876,5 @@ a {
   height: 140px;
   object-fit: cover;
   border-radius: 50%;
-  margin: 1rem 0;
+  margin-top: -1rem;
 }
