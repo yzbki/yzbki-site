@@ -126,7 +126,8 @@
 
 /* Click feedback */
 .pig:active {
-  transform: scale(0.88);
+  transform: scale(0.8);
+  opacity: 0.2;
 }
 
 @keyframes pigAppear {

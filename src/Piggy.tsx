@@ -84,44 +84,32 @@ export default function Piggy() {
   const popPig = (pig: Pig) => {
     setScore((score) => score + 1);
 
-    // Play pop sound
     const popSound = new Audio("/sounds/pop.mp3");
     popSound.volume = 0.5;
     popSound.currentTime = 0;
     popSound.play().catch(() => {});
 
-    // Pink bubble fizzles
-    const field = document.querySelector(".piggy-field");
+    confetti({
+      particleCount: 18,
+      spread: 55,
+      startVelocity: 8,
+      gravity: 0.7,
+      scalar: 0.55,
+      ticks: 35,
+      origin: {
+        x: pig.x / 100,
+        y: pig.y / 100,
+      },
+      colors: [
+        "#ffb6d9",
+        "#ff8fc4",
+        "#ff69b4",
+        "#ffd6e9",
+        "#ffffff",
+      ],
+      shapes: ["circle"],
+    });
 
-    if (field) {
-      const rect = field.getBoundingClientRect();
-
-      const originX = pig.x / 100;
-      const originY = pig.y / 100;
-
-      confetti({
-        particleCount: 18,
-        spread: 55,
-        startVelocity: 8,
-        gravity: 0.7,
-        scalar: 0.55,
-        ticks: 35,
-        origin: {
-          x: originX,
-          y: originY,
-        },
-        colors: [
-          "#ffb6d9",
-          "#ff8fc4",
-          "#ff69b4",
-          "#ffd6e9",
-          "#ffffff",
-        ],
-        shapes: ["circle"],
-      });
-    }
-
-    // Remove popped pig and spawn a new one
     setPigList((current) => [
       ...current.filter((currentPig) => currentPig.id !== pig.id),
       createPig(Date.now()),
