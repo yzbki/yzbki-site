@@ -865,15 +865,16 @@ a {
   }
 }
 
-.hero {
+.hero-profile {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  gap: 2.5rem;
 }
 
 .portrait {
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 50%;
-  margin-top: -1rem;
+  flex-shrink: 0;
 }
