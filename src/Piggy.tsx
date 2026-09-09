@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./Piggy.css";
+import confetti from "canvas-confetti";
 
 const pigs = [
   "/pigs/pig1.png",
@@ -80,11 +81,49 @@ export default function Piggy() {
     };
   }, []);
 
-  const popPig = (id: number) => {
+  const popPig = (pig: Pig) => {
     setScore((score) => score + 1);
 
+    // Play pop sound
+    const popSound = new Audio("/sounds/pop.mp3");
+    popSound.volume = 0.5;
+    popSound.currentTime = 0;
+    popSound.play().catch(() => {});
+
+    // Pink bubble fizzles
+    const field = document.querySelector(".piggy-field");
+
+    if (field) {
+      const rect = field.getBoundingClientRect();
+
+      const originX = pig.x / 100;
+      const originY = pig.y / 100;
+
+      confetti({
+        particleCount: 18,
+        spread: 55,
+        startVelocity: 8,
+        gravity: 0.7,
+        scalar: 0.55,
+        ticks: 35,
+        origin: {
+          x: originX,
+          y: originY,
+        },
+        colors: [
+          "#ffb6d9",
+          "#ff8fc4",
+          "#ff69b4",
+          "#ffd6e9",
+          "#ffffff",
+        ],
+        shapes: ["circle"],
+      });
+    }
+
+    // Remove popped pig and spawn a new one
     setPigList((current) => [
-      ...current.filter((pig) => pig.id !== id),
+      ...current.filter((currentPig) => currentPig.id !== pig.id),
       createPig(Date.now()),
     ]);
   };
@@ -105,7 +144,7 @@ export default function Piggy() {
           <button
             key={pig.id}
             className="pig"
-            onClick={() => popPig(pig.id)}
+            onClick={() => popPig(pig)}
             style={{
               left: `${pig.x}%`,
               top: `${pig.y}%`,
