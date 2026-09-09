@@ -5,8 +5,6 @@ const pigs = [
   "/pigs/pig1.png",
   "/pigs/pig2.png",
   "/pigs/pig3.png",
-  "/pigs/pig4.png",
-  "/pigs/pig5.png",
 ];
 
 type Pig = {
