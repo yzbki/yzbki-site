@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import "./Piggy.css";
 
 const pigs = [
-  "/pigs/pig.png",
+  "/pigs/pig1.png",
+  "/pigs/pig2.png",
+  "/pigs/pig3.png",
+  "/pigs/pig4.png",
+  "/pigs/pig5.png",
 ];
 
 type Pig = {
@@ -17,13 +21,15 @@ type Pig = {
 
 function createPig(id: number): Pig {
   const angle = Math.random() * Math.PI * 2;
-  const speed = 0.4 + Math.random() * 0.8;
+
+  // Slower movement
+  const speed = 0.15 + Math.random() * 0.25;
 
   return {
     id,
     x: 5 + Math.random() * 90,
     y: 15 + Math.random() * 75,
-    size: 70 + Math.random() * 50,
+    size: 80 + Math.random() * 50,
     dx: Math.cos(angle) * speed,
     dy: Math.sin(angle) * speed,
     image: pigs[Math.floor(Math.random() * pigs.length)],
@@ -32,6 +38,7 @@ function createPig(id: number): Pig {
 
 export default function Piggy() {
   const [score, setScore] = useState(0);
+
   const [pigList, setPigList] = useState<Pig[]>(() =>
     Array.from({ length: 10 }, (_, i) => createPig(i))
   );
@@ -78,7 +85,6 @@ export default function Piggy() {
   const popPig = (id: number) => {
     setScore((score) => score + 1);
 
-    // Remove the popped pig and immediately replace it
     setPigList((current) => [
       ...current.filter((pig) => pig.id !== id),
       createPig(Date.now()),
@@ -110,6 +116,7 @@ export default function Piggy() {
             }}
             aria-label="Pop pig"
           >
+            <span className="bubble-shine" />
             <img src={pig.image} alt="" draggable="false" />
           </button>
         ))}
