@@ -26,7 +26,12 @@ function Header() {
           </NavLink>
         </nav>
 
-        <a href={EMAIL_URL} className="contact-pill">
+        <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=mus.alyouzbaki@gmail.com"
+          target="_blank"
+          rel="noreferrer"
+          className="contact-pill"
+        >
           Contact
         </a>
       </div>
