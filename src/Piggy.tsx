@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import "./Piggy.css";
 import confetti from "canvas-confetti";
+import "./Piggy.css";
 
 const pigs = [
   "/pigs/pig1.png",
@@ -37,6 +37,8 @@ function createPig(id: number): Pig {
 
 export default function Piggy() {
   const [score, setScore] = useState(0);
+
+  const popSound = useRef(new Audio("/sounds/pop.mp3"));
 
   const [pigList, setPigList] = useState<Pig[]>(() =>
     Array.from({ length: 10 }, (_, i) => createPig(i))
@@ -84,32 +86,36 @@ export default function Piggy() {
   const popPig = (pig: Pig) => {
     setScore((score) => score + 1);
 
-    const popSound = new Audio("/sounds/pop.mp3");
-    popSound.volume = 0.5;
-    popSound.currentTime = 0;
-    popSound.play().catch(() => {});
+    // Play pop sound
+    popSound.current.currentTime = 0;
+    popSound.current.volume = 0.5;
+    popSound.current.play().catch((error) => {
+      console.log("Could not play pop sound:", error);
+    });
 
+    // Pink fizzle effect
     confetti({
-      particleCount: 18,
-      spread: 55,
+      particleCount: 20,
+      spread: 360,
       startVelocity: 8,
-      gravity: 0.7,
-      scalar: 0.55,
-      ticks: 35,
+      gravity: 0.8,
+      scalar: 0.5,
+      ticks: 30,
       origin: {
         x: pig.x / 100,
         y: pig.y / 100,
       },
       colors: [
-        "#ffb6d9",
-        "#ff8fc4",
         "#ff69b4",
+        "#ff8fc4",
+        "#ffb6d9",
         "#ffd6e9",
         "#ffffff",
       ],
       shapes: ["circle"],
     });
 
+    // Replace popped bubble
     setPigList((current) => [
       ...current.filter((currentPig) => currentPig.id !== pig.id),
       createPig(Date.now()),
