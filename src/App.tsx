@@ -97,17 +97,26 @@ function Home() {
           Open to software opportunities
         </div>
 
-        <h1>
-          Hi, I’m Mustafa.
-          <br />
-          <em>I build software.</em>
-        </h1>
+        <div className="hero-profile">
+          <img
+            src="/portrait.jpg"
+            alt="Mustafa Al-Youzbaki"
+            className="portrait"
+          />
 
-        <p className="hero-copy">
-          Computing graduate from Queen’s University focused on
-          building practical, well-designed software across web,
-          mobile, and AI.
-        </p>
+          <div>
+            <h1>
+              Mustafa Al-Youzbaki
+              <br />
+              <em>I build software.</em>
+            </h1>
+
+            <p className="hero-copy">
+              Computing graduate building practical software
+              across web, mobile, and AI.
+            </p>
+          </div>
+        </div>
 
         <div className="hero-actions">
           <Link
