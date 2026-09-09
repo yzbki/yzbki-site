@@ -1,4 +1,5 @@
 import { Link, NavLink, Route, Routes } from "react-router-dom";
+import Piggy from "./Piggy";
 
 const GITHUB_URL = "https://github.com/yzbki";
 const LINKEDIN_URL = "https://linkedin.com/in/mus-alyouzbaki";
@@ -533,6 +534,11 @@ export default function App() {
       <Route
         path="/experience"
         element={<Experience />}
+      />
+
+      <Route
+        path="/piggy"
+        element={<Piggy />}
       />
 
       <Route
