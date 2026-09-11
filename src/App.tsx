@@ -2,6 +2,9 @@ import { Link, NavLink, Route, Routes } from "react-router-dom";
 import Piggy from "./Piggy";
 
 const GITHUB_URL = "https://github.com/yzbki";
+const GITHUB_MUDIR_URL = "https://github.com/yzbki/mudir-app";
+const GITHUB_NIDHAM_URL = "https://github.com/yzbki/nidham-app";
+const PLAYSTORE_NIDHAM_URL = "https://play.google.com/store/apps/details?id=com.youzbaki.nidham"
 const LINKEDIN_URL = "https://linkedin.com/in/mus-alyouzbaki";
 const EMAIL_URL = "mailto:mus.alyouzbaki@gmail.com";
 
@@ -232,6 +235,7 @@ const projects = [
       "JPA / Hibernate",
     ],
     status: "In development",
+    githubUrl: GITHUB_MUDIR_URL,
   },
 
   {
@@ -248,6 +252,8 @@ const projects = [
       "OpenAI API",
     ],
     status: "Published",
+    githubUrl: GITHUB_NIDHAM_URL,
+    playStoreUrl: PLAYSTORE_NIDHAM_URL,
   },
 
   {
@@ -318,15 +324,31 @@ function Projects() {
               ))}
             </div>
 
-            <a
-              className="text-link"
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              View GitHub
-              <span>↗</span>
-            </a>
+            <div className="project-links">
+              {project.githubUrl && (
+                <a
+                  className="text-link"
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View GitHub
+                  <span>↗</span>
+                </a>
+              )}
+
+              {project.playStoreUrl && (
+                <a
+                  className="text-link"
+                  href={project.playStoreUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Play Store
+                  <span>↗</span>
+                </a>
+              )}
+            </div>
           </article>
         ))}
       </section>
