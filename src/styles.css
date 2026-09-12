@@ -476,6 +476,11 @@ a {
   line-height: 1.7;
 }
 
+.project-links {
+  display: flex;
+  gap: 1rem;
+}
+
 /* Experience */
 
 .timeline-section {
@@ -788,7 +793,7 @@ a {
 
   .project-links {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   /* Experience */
