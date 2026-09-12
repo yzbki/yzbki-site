@@ -115,7 +115,8 @@ function Home() {
 
           <div>
             <h1>
-              Mustafa Al-Youzbaki
+              Mustafa{" "}
+              <span className="name-nowrap">Al-Youzbaki</span>
               <br />
               <em>I build software.</em>
             </h1>

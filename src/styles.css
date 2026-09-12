@@ -141,6 +141,11 @@ a {
   width: 100%;
 }
 
+.hero h1 {
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
 .portrait {
   display: block;
   width: 150px;
