@@ -1,4 +1,11 @@
-import { Link, NavLink, Route, Routes } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import {
+  Link,
+  NavLink,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Piggy from "./Piggy";
 
 const GITHUB_URL = "https://github.com/yzbki";
@@ -7,6 +14,75 @@ const GITHUB_NIDHAM_URL = "https://github.com/yzbki/nidham-app";
 const PLAYSTORE_NIDHAM_URL = "https://play.google.com/store/apps/details?id=com.youzbaki.nidham"
 const LINKEDIN_URL = "https://linkedin.com/in/mus-alyouzbaki";
 const EMAIL_URL = "mailto:mus.alyouzbaki@gmail.com";
+
+function Reveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(element);
+        }
+      },
+      {
+        threshold: 0.12,
+      }
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${visible ? "reveal-visible" : ""} ${className}`}
+      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
+    >
+      {children}
+    </div>
+  );
+}
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
+function PageTransition({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { pathname } = useLocation();
+
+  return (
+    <div key={pathname} className="page-transition">
+      {children}
+    </div>
+  );
+}
 
 function Header() {
   return (
@@ -106,27 +182,29 @@ function Home() {
           Open to software opportunities
         </div>
 
-        <div className="hero-profile">
-          <img
-            src="/portrait.png"
-            alt="Mustafa Al-Youzbaki"
-            className="portrait"
-          />
+        <Reveal>
+          <div className="hero-profile">
+            <img
+              src="/portrait.png"
+              alt="Mustafa Al-Youzbaki"
+              className="portrait"
+            />
 
-          <div>
-            <h1>
-              Mustafa{" "}
-              <span className="name-nowrap">Al-Youzbaki</span>
-              <br />
-              <em>I build software.</em>
-            </h1>
+            <div>
+              <h1>
+                Mustafa{" "}
+                <span className="name-nowrap">Al-Youzbaki</span>
+                <br />
+                <em>I build software.</em>
+              </h1>
 
-            <p className="hero-copy">
-              Computing graduate building practical software
-              across web, mobile, and AI.
-            </p>
+              <p className="hero-copy">
+                Computing graduate building practical software
+                across web, mobile, and AI.
+              </p>
+            </div>
           </div>
-        </div>
+        </Reveal>
         <div className="hero-actions">
           <Link
             to="/projects"
@@ -162,57 +240,61 @@ function Home() {
         </div>
       </section>
 
-      <section className="home-strip">
-        <div className="container strip-grid">
-          <div>
-            <p className="section-label">Currently building</p>
+      <Reveal>
+        <section className="home-strip">
+          <div className="container strip-grid">
+            <div>
+              <p className="section-label">Currently building</p>
 
-            <h2>Mudir</h2>
+              <h2>Mudir</h2>
 
-            <p>
-              A full-stack business management platform for
-              small and mid-sized businesses.
-            </p>
+              <p>
+                A full-stack business management platform for
+                small and mid-sized businesses.
+              </p>
+            </div>
+
+            <Link
+              to="/projects"
+              className="text-link"
+            >
+              See projects
+              <span>↗</span>
+            </Link>
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="home-about container">
+          <div className="about-label">
+            <p className="section-label">A little about me</p>
           </div>
 
-          <Link
-            to="/projects"
-            className="text-link"
-          >
-            See projects
-            <span>↗</span>
-          </Link>
-        </div>
-      </section>
+          <div className="about-content">
+            <h2>
+              I enjoy turning ideas into
+              <span> useful software.</span>
+            </h2>
 
-      <section className="home-about container">
-        <div className="about-label">
-          <p className="section-label">A little about me</p>
-        </div>
+            <p>
+              My background spans software development,
+              artificial intelligence, mobile development,
+              and full-stack applications. I like working on
+              projects where I can understand the problem,
+              design the system, and build the product myself.
+            </p>
 
-        <div className="about-content">
-          <h2>
-            I enjoy turning ideas into
-            <span> useful software.</span>
-          </h2>
-
-          <p>
-            My background spans software development,
-            artificial intelligence, mobile development,
-            and full-stack applications. I like working on
-            projects where I can understand the problem,
-            design the system, and build the product myself.
-          </p>
-
-          <Link
-            to="/experience"
-            className="text-link"
-          >
-            More about my background
-            <span>↗</span>
-          </Link>
-        </div>
-      </section>
+            <Link
+              to="/experience"
+              className="text-link"
+            >
+              More about my background
+              <span>↗</span>
+            </Link>
+          </div>
+        </section>
+      </Reveal>
     </Layout>
   );
 }
@@ -293,64 +375,66 @@ function Projects() {
 
       <section className="container project-list">
         {projects.map((project) => (
-          <article
-            className="project-card"
-            key={project.title}
-          >
-            <div className="project-top">
-              <span className="project-number">
-                {project.number}
-              </span>
-
-              <span className="project-status">
-                {project.status}
-              </span>
-            </div>
-
-            <h2>{project.title}</h2>
-
-            <p className="project-subtitle">
-              {project.subtitle}
-            </p>
-
-            <p className="project-description">
-              {project.description}
-            </p>
-
-            <div className="tags">
-              {project.stack.map((technology) => (
-                <span key={technology}>
-                  {technology}
+          <Reveal>
+            <article
+              className="project-card"
+              key={project.title}
+            >
+              <div className="project-top">
+                <span className="project-number">
+                  {project.number}
                 </span>
-              ))}
-            </div>
 
-            <div className="project-links">
-              {project.githubUrl && (
-                <a
-                  className="text-link"
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  View GitHub
-                  <span>↗</span>
-                </a>
-              )}
+                <span className="project-status">
+                  {project.status}
+                </span>
+              </div>
 
-              {project.playStoreUrl && (
-                <a
-                  className="text-link"
-                  href={project.playStoreUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Play Store
-                  <span>↗</span>
-                </a>
-              )}
-            </div>
-          </article>
+              <h2>{project.title}</h2>
+
+              <p className="project-subtitle">
+                {project.subtitle}
+              </p>
+
+              <p className="project-description">
+                {project.description}
+              </p>
+
+              <div className="tags">
+                {project.stack.map((technology) => (
+                  <span key={technology}>
+                    {technology}
+                  </span>
+                ))}
+              </div>
+
+              <div className="project-links">
+                {project.githubUrl && (
+                  <a
+                    className="text-link"
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View GitHub
+                    <span>↗</span>
+                  </a>
+                )}
+
+                {project.playStoreUrl && (
+                  <a
+                    className="text-link"
+                    href={project.playStoreUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Play Store
+                    <span>↗</span>
+                  </a>
+                )}
+              </div>
+            </article>
+          </Reveal>
         ))}
       </section>
 
@@ -400,99 +484,107 @@ function Experience() {
           Education
         </div>
 
-        <article className="timeline-item">
-          <div className="timeline-date">
-            2020 — 2026
-          </div>
+        <Reveal>
+          <article className="timeline-item">
+            <div className="timeline-date">
+              2020 — 2026
+            </div>
 
-          <div>
-            <h2>Queen’s University</h2>
+            <div>
+              <h2>Queen’s University</h2>
 
-            <p className="muted">
-              Bachelor of Computing (Hons.)
-              <br />
-              Specialization in Cognitive Science
-            </p>
+              <p className="muted">
+                Bachelor of Computing (Hons.)
+                <br />
+                Specialization in Cognitive Science
+              </p>
 
-            <p>
-              Completed a Bachelor of Computing with a
-              specialization in Cognitive Science. Relevant
-              coursework included Artificial Intelligence,
-              Software Development, Data Structures &
-              Algorithms, Neural Networks, Reinforcement
-              Learning, Data Analytics, Discrete Mathematics,
-              Linear Algebra, and Genetic Models.
-            </p>
-          </div>
-        </article>
+              <p>
+                Completed a Bachelor of Computing with a
+                specialization in Cognitive Science. Relevant
+                coursework included Artificial Intelligence,
+                Software Development, Data Structures &
+                Algorithms, Neural Networks, Reinforcement
+                Learning, Data Analytics, Discrete Mathematics,
+                Linear Algebra, and Genetic Models.
+              </p>
+            </div>
+          </article>
+        </Reveal>
 
         <div className="timeline-heading work-heading">
           Work
         </div>
 
-        <article className="timeline-item">
-          <div className="timeline-date">
-            Aug 2026 — Present
-          </div>
+        <Reveal>
+          <article className="timeline-item">
+            <div className="timeline-date">
+              Aug 2026 — Present
+            </div>
 
-          <div>
-            <h2>Marine Tavern</h2>
+            <div>
+              <h2>Marine Tavern</h2>
 
-            <p className="muted">
-              Line Cook / Prep Cook · Oakville, ON
-            </p>
+              <p className="muted">
+                Line Cook / Prep Cook · Oakville, ON
+              </p>
 
-            <p>
-              Cook orders across fryer, grill, pan, and
-              cold stations while completing daily prep
-              work and maintaining food quality, cleanliness,
-              and organization in a fast-paced kitchen.
-            </p>
-          </div>
-        </article>
+              <p>
+                Cook orders across fryer, grill, pan, and
+                cold stations while completing daily prep
+                work and maintaining food quality, cleanliness,
+                and organization in a fast-paced kitchen.
+              </p>
+            </div>
+          </article>
+        </Reveal>
 
-        <article className="timeline-item">
-          <div className="timeline-date">
-            Jun 2023 — Oct 2023
-          </div>
+        <Reveal>
+          <article className="timeline-item">
+            <div className="timeline-date">
+              Jun 2023 — Oct 2023
+            </div>
 
-          <div>
-            <h2>Kelsey’s Original Roadhouse</h2>
+            <div>
+              <h2>Kelsey’s Original Roadhouse</h2>
 
-            <p className="muted">
-              Line Cook · Burlington, ON
-            </p>
+              <p className="muted">
+                Line Cook · Burlington, ON
+              </p>
 
-            <p>
-              Prepared and cooked high-volume orders while
-              coordinating with cooks, servers, and
-              management. Demonstrated reliability,
-              adaptability, and consistent quality service
-              under pressure.
-            </p>
-          </div>
-        </article>
+              <p>
+                Prepared and cooked high-volume orders while
+                coordinating with cooks, servers, and
+                management. Demonstrated reliability,
+                adaptability, and consistent quality service
+                under pressure.
+              </p>
+            </div>
+          </article>
+        </Reveal>
 
-        <article className="timeline-item">
-          <div className="timeline-date">
-            Apr 2022 — Sep 2022
-          </div>
+        <Reveal>
+          <article className="timeline-item">
+            <div className="timeline-date">
+              Apr 2022 — Sep 2022
+            </div>
 
-          <div>
-            <h2>The Brass Pub</h2>
+            <div>
+              <h2>The Brass Pub</h2>
 
-            <p className="muted">
-              Line Cook · Kingston, ON
-            </p>
+              <p className="muted">
+                Line Cook · Kingston, ON
+              </p>
 
-            <p>
-              Cross-trained across fry, grill, and prep
-              stations in a small team. Managed closing
-              responsibilities including cleaning,
-              restocking, and equipment maintenance.
-            </p>
-          </div>
-        </article>
+              <p>
+                Cross-trained across fry, grill, and prep
+                stations in a small team. Managed closing
+                responsibilities including cleaning,
+                restocking, and equipment maintenance.
+              </p>
+            </div>
+          </article>
+        </Reveal>
       </section>
 
       <section className="skills-section">
@@ -543,31 +635,37 @@ function Experience() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={<Home />}
-      />
+    <>
+      <ScrollToTop />
 
-      <Route
-        path="/projects"
-        element={<Projects />}
-      />
+      <PageTransition>
+        <Routes>
+          <Route
+            path="/"
+            element={<Home />}
+          />
 
-      <Route
-        path="/experience"
-        element={<Experience />}
-      />
+          <Route
+            path="/projects"
+            element={<Projects />}
+          />
 
-      <Route
-        path="/piggy"
-        element={<Piggy />}
-      />
+          <Route
+            path="/experience"
+            element={<Experience />}
+          />
 
-      <Route
-        path="*"
-        element={<Home />}
-      />
-    </Routes>
+          <Route
+            path="/piggy"
+            element={<Piggy />}
+          />
+
+          <Route
+            path="*"
+            element={<Home />}
+          />
+        </Routes>
+      </PageTransition>
+    </>
   );
 }
