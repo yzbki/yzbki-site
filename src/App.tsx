@@ -70,20 +70,6 @@ function ScrollToTop() {
   return null;
 }
 
-function PageTransition({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { pathname } = useLocation();
-
-  return (
-    <div key={pathname} className="page-transition">
-      {children}
-    </div>
-  );
-}
-
 function Header() {
   return (
     <header className="site-header">
@@ -162,7 +148,9 @@ function Layout({
     <>
       <Header />
 
-      <main>{children}</main>
+      <main className="page-transition">
+        {children}
+      </main>
 
       <Footer />
     </>
@@ -637,35 +625,32 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
+      <Routes>
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
-      <PageTransition>
-        <Routes>
-          <Route
-            path="/"
-            element={<Home />}
-          />
+        <Route
+          path="/projects"
+          element={<Projects />}
+        />
 
-          <Route
-            path="/projects"
-            element={<Projects />}
-          />
+        <Route
+          path="/experience"
+          element={<Experience />}
+        />
 
-          <Route
-            path="/experience"
-            element={<Experience />}
-          />
+        <Route
+          path="/piggy"
+          element={<Piggy />}
+        />
 
-          <Route
-            path="/piggy"
-            element={<Piggy />}
-          />
-
-          <Route
-            path="*"
-            element={<Home />}
-          />
-        </Routes>
-      </PageTransition>
+        <Route
+          path="*"
+          element={<Home />}
+        />
+      </Routes>
     </>
   );
 }
