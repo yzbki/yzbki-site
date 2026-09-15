@@ -108,7 +108,7 @@ function Home() {
 
         <div className="hero-profile">
           <img
-            src="/portrait.jpg"
+            src="/portrait.png"
             alt="Mustafa Al-Youzbaki"
             className="portrait"
           />
