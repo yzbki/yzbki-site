@@ -500,6 +500,22 @@ function Experience() {
           </article>
         </Reveal>
 
+        <Reveal>
+          <article className="timeline-item">
+            <div className="timeline-date">
+              2016 — 2020
+            </div>
+
+            <div>
+              <h2>Garth Webb Secondary School</h2>
+
+              <p className="muted">
+                Ontario Secondary School Diploma (OSSD)
+              </p>
+            </div>
+          </article>
+        </Reveal>
+
         <div className="timeline-heading work-heading">
           Work
         </div>
